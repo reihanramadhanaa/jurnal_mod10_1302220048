@@ -2,32 +2,50 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace modul10_1302220048.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
-    {
-        private static readonly string[] Summaries = new[]
+   
+
+
+        [Route("api/[controller]")]
+        [ApiController]
+        public class MahasiswaController : Controller
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            public static List<Mahasiswa> dataMahasiswa = new List<Mahasiswa>
+        {
+            new Mahasiswa("Reihan Ramadhana Anwari", "1302220048",["KPL","BASDAT","PBO"],2022),
+            new Mahasiswa("Muhammad Rafif AryaSatya Purnomo", "1302220003",["KPL","BASDAT","PBO"],2022),
+            new Mahasiswa("Muhammad Ghaziveda Belvanaufal", "1302220011",["KPL","BASDAT","PBO"],2022),
+            new Mahasiswa("Daffa Adrianto Effendi", "1302220151",["KPL","BASDAT","PBO"],2022),
+            new Mahasiswa("Mochammad Rizky Septian", "1302220121",["KPL","BASDAT","PBO"],2022),
+            new Mahasiswa("Muhammad Ghiyats Fatiha", "1302220109",["KPL","BASDAT","PBO"],2022),
+            new Mahasiswa("Muhammad Zidan Siva Fajar", "1302223039",["KPL","BASDAT","PBO"],2022)
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            [HttpGet]
+            public IEnumerable<Mahasiswa> Get()
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                return dataMahasiswa;
+            }
+
+
+            [HttpGet("{id}")]
+            public Mahasiswa Get(int id)
+            {
+                return dataMahasiswa[id];
+            }
+
+
+            [HttpPost]
+            public void Post([FromBody] Mahasiswa value)
+            {
+                dataMahasiswa.Add(value);
+            }
+
+            [HttpDelete("{id}")]
+            public void Delete(int id)
+            {
+                dataMahasiswa.RemoveAt(id);
+            }
         }
+
     }
-}
+
